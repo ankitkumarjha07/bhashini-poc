@@ -114,6 +114,8 @@ class ASRRecorder extends Component {
                         <option value="kn">Kannada - ಕನ್ನಡ</option>
                         <option value="ml">Malayalam - മലയാളം</option>
                         <option value="te">Telugu - తెలుగు</option>
+                        <option value="bn">Bengali - বাঙ্গালী</option>
+                        <option value="mr">Marathi - मराठी</option>
                     </select>
                 </div>
                 <div className="button-container">
