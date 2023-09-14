@@ -1,0 +1,265 @@
+/* Define Color Variables */
+:root {
+  --background: #f9f9f9;
+  /* Light gray background */
+  --text-primary: #333;
+  /* Dark gray text */
+  --text-secondary: #777;
+  /* Light gray text */
+  --accent: #007bff;
+  /* Accent color (blue) */
+  --disabled: #ccc;
+  /* Disabled/grayed-out color */
+}
+
+/* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background);
+  color: var(--text-primary);
+}
+
+/* Container for ASR Recorder */
+.asr-recorder-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Title */
+.title {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: var(--accent);
+  /* Make the title stand out */
+}
+
+/* Basic styles for the language selector container */
+.language-selector {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  max-width: 300px;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Label styles */
+.language-selector label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* Dropdown styles */
+.language-selector select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  cursor: pointer;
+}
+
+/* Horizontal rule styles */
+.language-selector hr {
+  border: none;
+  height: 1px;
+  background-color: #ddd;
+  margin: 15px 0;
+}
+
+/* Styling the dropdown options */
+.language-selector select option {
+  background-color: #fff;
+}
+
+/* Add some transition for a smoother interaction */
+.language-selector select:hover {
+  border-color: #aaa;
+  transition: border-color 0.3s ease-in-out;
+}
+
+/* Style the selected option */
+.language-selector select:focus {
+  outline: none;
+  border-color: #007BFF;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Custom styling for the selected option */
+.language-selector select option:checked {
+  background-color: #007BFF;
+  color: #fff;
+}
+
+/* Style the dropdown arrow (you may need to use a custom arrow image) */
+.language-selector select::-ms-expand {
+  display: none;
+}
+
+.language-selector select::-webkit-select-arrow {
+  display: none;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+  .language-selector {
+    max-width: 100%;
+  }
+}
+
+
+/* Buttons */
+.button-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  background-color: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+  margin-right: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:disabled {
+  background-color: var(--disabled);
+  cursor: not-allowed;
+}
+
+/* Webcam container */
+.webcam-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+/* Text container */
+.text-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+textarea {
+  width: 100%;
+  max-width: 600px;
+  padding: 12px;
+  border: 2px solid var(--accent);
+  /* Make the textarea stand out */
+  border-radius: 8px;
+  resize: none;
+  font-size: 16px;
+  color: var(--text-primary);
+  background-color: transparent;
+  transition: border-color 0.3s ease;
+  margin-bottom: 10px;
+}
+
+textarea:focus {
+  border-color: var(--accent);
+  /* Highlight on focus */
+}
+
+/* Translated audio container */
+.audio-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+span {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+audio {
+  width: 100%;
+  max-width: 400px;
+  background-color: var(--background);
+  border: 2px solid var(--accent);
+  /* Make the audio player stand out */
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+
+/* Common styles for both animations */
+.speaking-animation,
+.loudness-animation {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* Speaking animation styles */
+.speaking-animation {
+  width: 20px;
+  height: 20px;
+  background-color: green;
+  border-radius: 50%;
+  position: relative;
+  transform: translate(-50%, -50%);
+  animation: scaleUp 1s infinite ease-in-out alternate;
+  opacity: 0.8;
+}
+
+@keyframes scaleUp {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* Button hover animation */
+button:hover {
+  background-color: #0056b3;
+  /* Darker shade of the accent color on hover */
+  transform: scale(1.05);
+  /* Slightly scale up the button on hover */
+  box-shadow: 0px 0px 10px rgba(0, 86, 179, 0.3);
+  /* Add a subtle box shadow */
+}
+
+.stop-rec {
+  background-color: red;
+  color: white;
+}
+
+.stop-rec:hover {
+  background-color: #eb3b61;
+  /* Darker shade of the accent color on hover */
+  transform: scale(1.05);
+  /* Slightly scale up the button on hover */
+  box-shadow: 0px 0px 10px rgba(0, 86, 179, 0.3);
+  /* Add a subtle box shadow */
+}
