@@ -171,6 +171,9 @@ class ASRRecorder extends Component {
                     )}
                 </div>
                 <img src="https://presentations.gov.in/presgov_new/wp-content/uploads/2020/06/Digital-india-black.jpg?x42937" alt = "Digital India" height="100px" width="150px"/>
+                <div>
+                    <p> Made with ❤️ and JS by AKJ</p>
+                </div>
             </div>
         );
     }
