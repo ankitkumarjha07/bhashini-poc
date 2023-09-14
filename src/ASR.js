@@ -15,6 +15,7 @@ class ASRRecorder extends Component {
             asrResult: '',
             translatedText: '',
             selectedLanguage: 'en',
+            selectedTargetLanguage: 'ta', // Default target language
             bhashiniAudio: '',
             showSpeakingAnimation: false, // Add state for speaking animation
             showLoudnessAnimation: false, // Add state for loudness detection animation
@@ -38,24 +39,29 @@ class ASRRecorder extends Component {
                 recording: true,
                 webcamEnabled: true, // Enable webcam when recording starts
                 showSpeakingAnimation: true, // Enable speaking animation when recording starts
-
             });
         } catch (error) {
             console.error('Error accessing webcam:', error);
         }
     };
 
-    handleLanguageChange = async (event) => {
+    handleSourceLanguageChange = async (event) => {
         const selectedLanguage = event.target.value;
         await this.setState({ selectedLanguage });
         console.log(this.state.selectedLanguage);
+    };
+
+    handleTargetLanguageChange = async (event) => {
+        const selectedTargetLanguage = event.target.value;
+        await this.setState({ selectedTargetLanguage });
+        console.log(this.state.selectedTargetLanguage);
     };
 
     stopRecording = async () => {
         if (this.mediaRecorder) {
             this.mediaRecorder.stopRecording(async () => {
                 const blob = this.mediaRecorder.getBlob();
-                const recordedAudio = URL.createObjectURL(blob);
+                // const recordedAudio = URL.createObjectURL(blob);
 
                 // Reset webcam permission
                 const tracks = this.webcamRef.current.stream.getTracks();
@@ -72,23 +78,17 @@ class ASRRecorder extends Component {
 
                     // Call bhashini.asr() with the base64 audio data
                     const lang = this.state.selectedLanguage;
-                    const sourceLang = this.state.selectedLanguage === 'en' ? 'hi' : 'en';
+                    const targetLang = this.state.selectedTargetLanguage;
                     const text = await bhashini.asr(lang, base64Audio);
-                    const translate = await bhashini.nmt(lang, sourceLang, text);
-                    const audio = await bhashini.tts(sourceLang, translate);
+                    const translate = await bhashini.nmt(lang, targetLang, text);
+                    const audio = await bhashini.tts(targetLang, translate);
                     this.setState({
                         asrResult: text, // Set the ASR result
                         recording: false,
                         webcamEnabled: false,
                         translatedText: translate,
                         bhashiniAudio: audio,
-                        showSpeakingAnimation: false, // disable speaking animation when recording starts
-                    });
-
-                    this.setState({
-                        recording: false,
-                        recordedAudio,
-                        webcamEnabled: false, // Disable webcam when recording stops
+                        showSpeakingAnimation: false, // Disable speaking animation when recording stops
                     });
                 };
             });
@@ -96,40 +96,76 @@ class ASRRecorder extends Component {
     };
 
     render() {
+        const sourceLanguages = [
+            { code: 'en', name: 'English' },
+            { code: 'ta', name: 'Tamil - தமிழ்' },
+            { code: 'hi', name: 'Hindi - हिन्दी' },
+            { code: 'kn', name: 'Kannada - ಕನ್ನಡ' },
+            { code: 'ml', name: 'Malayalam - മലയാളം' },
+            { code: 'te', name: 'Telugu - తెలుగు' },
+            { code: 'bn', name: 'Bengali - বাঙ্গালী' },
+            { code: 'mr', name: 'Marathi - मराठी' },
+        ];
+
+        const targetLanguages = [
+            { code: 'ta', name: 'Tamil - தமிழ்' },
+            { code: 'hi', name: 'Hindi - हिन्दी' },
+            { code: 'kn', name: 'Kannada - ಕನ್ನಡ' },
+            { code: 'ml', name: 'Malayalam - മലയാളം' },
+            { code: 'te', name: 'Telugu - తెలుగు' },
+            { code: 'bn', name: 'Bengali - বাঙ্গালী' },
+            { code: 'mr', name: 'Marathi - मराठी' },
+        ];
         return (
             <div className="asr-recorder-container">
                 <h2 className="title">Bhashini ⭐</h2>
-
                 <div className="language-selector">
-                    <label htmlFor="language-dropdown">Source Language:</label>
-                    <hr />
+                    <label className="language-label" htmlFor="source-language-dropdown">
+                        Source Language:
+                    </label>
                     <select
-                        id="language-dropdown"
+                        className="language-dropdown"
+                        id="source-language-dropdown"
                         value={this.state.selectedLanguage}
-                        onChange={this.handleLanguageChange}
+                        onChange={this.handleSourceLanguageChange}
                     >
-                        <option value="en">English</option>
-                        <option value="ta">Tamil - தமிழ்</option>
-                        <option value="hi">Hindi - हिन्दी</option>
-                        <option value="kn">Kannada - ಕನ್ನಡ</option>
-                        <option value="ml">Malayalam - മലയാളം</option>
-                        <option value="te">Telugu - తెలుగు</option>
-                        <option value="bn">Bengali - বাঙ্গালী</option>
-                        <option value="mr">Marathi - मराठी</option>
+                        {sourceLanguages.map((lang) => (
+                            <option className="language-option" key={lang.code} value={lang.code}>
+                                {lang.name}
+                            </option>
+                        ))}
+                    </select>
+
+                    <label className="language-label" htmlFor="target-language-dropdown">
+                        Target Language:
+                    </label>
+                    <select
+                        className="language-dropdown"
+                        id="target-language-dropdown"
+                        value={this.state.selectedTargetLanguage}
+                        onChange={this.handleTargetLanguageChange}
+                    >
+                        {targetLanguages
+                            .filter((lang) => lang.code !== this.state.selectedLanguage)
+                            .map((lang) => (
+                                <option className="language-option" key={lang.code} value={lang.code}>
+                                    {lang.name}
+                                </option>
+                            ))}
                     </select>
                 </div>
+
                 <div className="button-container">
                     {this.state.recording ? (
                         <button onClick={this.stopRecording}> Stop Recording</button>
                     ) : (
-                        <button onClick={this.startRecording}>  🎤 Start Recording</button>
+                        <button onClick={this.startRecording}> 🎤 Start Recording</button>
                     )}
                 </div>
-                {this.state.webcamEnabled && ( // Show webcam only when webcamEnabled is true
+                {this.state.webcamEnabled && (
                     <div className="webcam-container">
                         {/* Add speaking animation */}
                         {this.state.showSpeakingAnimation && (
-
                             <div className="speaking-animation"></div>
                         )}
                         <Webcam
@@ -152,16 +188,16 @@ class ASRRecorder extends Component {
                         placeholder="🗣️ Speech to Text Output will appear here.."
                         rows="4"
                         cols="50"
-                        value={this.state.asrResult} // Set the value of the text box to the ASR result
-                        readOnly // Make the text box read-only
+                        value={this.state.asrResult}
+                        readOnly
                     ></textarea>
                     <textarea
                         className="translate-box"
                         placeholder="🌐 Translated Output will appear here..."
                         rows="4"
                         cols="50"
-                        value={this.state.translatedText} // Set the value of the text box to the ASR result
-                        readOnly // Make the text box read-only
+                        value={this.state.translatedText}
+                        readOnly
                     ></textarea>
                     {this.state.bhashiniAudio && (
                         <div className="audio-container">
@@ -170,7 +206,7 @@ class ASRRecorder extends Component {
                         </div>
                     )}
                 </div>
-                <img src="https://presentations.gov.in/presgov_new/wp-content/uploads/2020/06/Digital-india-black.jpg?x42937" alt = "Digital India" height="100px" width="150px"/>
+                <img src="https://presentations.gov.in/presgov_new/wp-content/uploads/2020/06/Digital-india-black.jpg?x42937" alt="Digital India" height="100px" width="150px" />
                 <div>
                     <p> Made with ❤️ and JS by AKJ</p>
                 </div>

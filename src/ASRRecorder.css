@@ -42,81 +42,84 @@ body {
 }
 
 /* Basic styles for the language selector container */
+/* Container for the language selector */
+/* Container for the language selector */
 .language-selector {
-  font-family: Arial, sans-serif;
-  margin: 20px;
-  max-width: 300px;
-  border: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  background: linear-gradient(to bottom, #fff, #f0f0f0); /* Subtle gradient background */
+  border: 1px solid #d8d8d8; /* Light border for a clean look */
+  border-radius: 12px; /* Increased border radius for a sleek appearance */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-/* Label styles */
-.language-selector label {
+.language-selector:hover {
+  transform: translateY(-4px); /* Lift the card on hover */
+  box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+/* Label styling */
+.language-label {
+  font-size: 18px;
   font-weight: bold;
-  display: block;
   margin-bottom: 10px;
+  color: #333; /* Dark text color */
 }
 
-/* Dropdown styles */
-.language-selector select {
-  width: 100%;
+/* Dropdown select box styling */
+.language-dropdown {
+  width: 200px;
   padding: 10px;
+  border: none;
+  border-bottom: 2px solid #3498db; /* Underline effect for input focus */
+  background-color: #f8f8f8; /* Match the container's background color */
   font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #f8f8f8;
+  color: #333;
+  outline: none;
+  transition: border-color 0.3s, transform 0.2s;
+  margin-bottom: 20px;
   cursor: pointer;
 }
 
-/* Horizontal rule styles */
-.language-selector hr {
-  border: none;
-  height: 1px;
-  background-color: #ddd;
-  margin: 15px 0;
+.language-dropdown:focus {
+  border-color: #2980b9; /* Darker underline on focus */
+  transform: scale(1.02); /* Slight scale-up effect on focus */
 }
 
-/* Styling the dropdown options */
-.language-selector select option {
-  background-color: #fff;
+/* Dropdown option styling */
+.language-option {
+  font-size: 16px;
+  padding: 5px;
+  color: #555; /* Slightly muted text color */
 }
 
-/* Add some transition for a smoother interaction */
-.language-selector select:hover {
-  border-color: #aaa;
-  transition: border-color 0.3s ease-in-out;
+/* Hover effect for dropdown options */
+.language-option:hover {
+  background-color: #f2f2f2; /* Light gray background on hover */
+  color: #333; /* Darken text color on hover */
 }
 
-/* Style the selected option */
-.language-selector select:focus {
-  outline: none;
-  border-color: #007BFF;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+/* Margin between dropdowns */
+.language-dropdown + .language-dropdown {
+  margin-top: 10px;
 }
 
-/* Custom styling for the selected option */
-.language-selector select option:checked {
-  background-color: #007BFF;
-  color: #fff;
+/* Slide-in animation for the dropdowns */
+.language-dropdown-enter {
+  transform: translateY(-10px);
+  opacity: 0;
 }
 
-/* Style the dropdown arrow (you may need to use a custom arrow image) */
-.language-selector select::-ms-expand {
-  display: none;
+.language-dropdown-enter-active {
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-.language-selector select::-webkit-select-arrow {
-  display: none;
-}
-
-/* Responsive styles */
-@media screen and (max-width: 768px) {
-  .language-selector {
-    max-width: 100%;
-  }
-}
 
 
 /* Buttons */
@@ -153,6 +156,7 @@ button:disabled {
 }
 
 /* Text container */
+/* Text container */
 .text-container {
   width: 100%;
   display: flex;
@@ -162,25 +166,28 @@ button:disabled {
   margin-top: 20px;
 }
 
+/* Textarea styling */
 textarea {
   width: 100%;
   max-width: 600px;
   padding: 12px;
-  border: 2px solid var(--accent);
-  /* Make the textarea stand out */
-  border-radius: 8px;
+  border: 2px solid #3498db; /* A modern and vibrant border color */
+  border-radius: 12px; /* Sleeker border radius for a contemporary look */
   resize: none;
-  font-size: 16px;
-  color: var(--text-primary);
-  background-color: transparent;
-  transition: border-color 0.3s ease;
-  margin-bottom: 10px;
+  font-size: 18px; /* Increased font size for readability */
+  color: #333; /* Dark text color for contrast */
+  background-color: #f9f9f9; /* Light gray background for a clean aesthetic */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+  margin-bottom: 20px; /* Increased margin for spacing */
+  font-family: 'Poppins', sans-serif; /* A trendy and modern font */
 }
 
 textarea:focus {
-  border-color: var(--accent);
-  /* Highlight on focus */
+  border-color: #2980b9; /* Darker border color on focus for emphasis */
+  outline: none;
+  box-shadow: 0 0 10px rgba(52, 152, 219, 0.5); /* Subtle box shadow on focus */
 }
+
 
 /* Translated audio container */
 .audio-container {
@@ -262,4 +269,8 @@ button:hover {
   /* Slightly scale up the button on hover */
   box-shadow: 0px 0px 10px rgba(0, 86, 179, 0.3);
   /* Add a subtle box shadow */
+}
+
+#target-lbl{
+  margin-top: 10px;
 }
