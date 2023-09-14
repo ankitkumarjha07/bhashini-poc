@@ -144,6 +144,7 @@ class ASRRecorder extends Component {
                     </div>
                 )}
                 <div className="text-container">
+                    <span> 💡 Click on stop recording to see the result. </span>
                     <textarea
                         className="stt"
                         placeholder="🗣️ Speech to Text Output will appear here.."
